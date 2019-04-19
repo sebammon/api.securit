@@ -1,6 +1,5 @@
 # Flask
 Flask==1.0.2
-Flask-Admin==1.5.3
 
 # Linting
 pylint==2.3.1
