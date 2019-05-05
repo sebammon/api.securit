@@ -1,6 +1,7 @@
 # Flask
 Flask==1.0.2
 Flask-JWT-Extended==3.18.1
+Flask-PyMongo==2.2.0
 
 # Linting
 pylint==2.3.1

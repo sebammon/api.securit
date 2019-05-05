@@ -1,6 +1,9 @@
-from flask import request, jsonify
+from flask import request, jsonify, Response
 from flask_jwt_extended import create_access_token, jwt_required
-from securit import app
+from securit import app, mongo, system
+from bson.json_util import dumps
+
+mimetype = 'application/json'
 
 @app.route('/')
 def server_running():
@@ -26,38 +29,50 @@ def logout():
 
 # SENSOR STATUSES
 @app.route('/sensors/status', methods=['GET'])
-@jwt_required
+# @jwt_required
 def get_sensors_status():
     return 'List of sensor statuses'
 
 @app.route('/sensors/status/<int:sensor_id>', methods=['GET'])
-@jwt_required
+# @jwt_required
 def get_sensors_status_by_id(sensor_id):
     return 'Sensor statuses: {}'.format(sensor_id)
 
 # SENSOR CONFIG
 @app.route('/sensors/config', methods=['GET'])
-@jwt_required
+# @jwt_required
 def get_sensors_config():
-    return 'List of sensor configs'
+    sensors = mongo.db.sensors.find({}, {'_id': False})
+    return Response(dumps(sensors), mimetype=mimetype)
 
 @app.route('/sensors/config', methods=['POST'])
-@jwt_required
+# @jwt_required
 def create_sensors_config():
-    return 'Create sensor config'
+    form_data = request.form
+    
+    gpio = form_data.get('gpio')
+    sensor_name = form_data.get('name')
+    sensor_type = form_data.get('type')
 
-@app.route('/sensors/config/<int:sensor_id>', methods=['PUT'])
-@jwt_required
-def update_sensors_config(sensor_id):
-    return 'Update sensor {} config'.format(sensor_id)
+    if not gpio and not sensor_name and not sensor_type:
+        data = {"gpio": gpio, "name": sensor_name, "type": sensor_type}
+        config = mongo.db.sensors.insert(data)
+        return Response(dumps(config), mimetype=mimetype)
+
+    return jsonify({'message': 'Sensor config data missing'}), 400
 
 # ALARM SYSTEM ACTIONS
 @app.route('/alarm/status', methods=['GET'])
-@jwt_required
+# @jwt_required
 def get_alarm_status():
-    return 'Armed'
+    status = system.get_status()
+    return jsonify({'status': status})
 
-@app.route('/alarm/status', methods=['PUT'])
-@jwt_required
-def set_alarm_status():
-    return 'Alarm Status Changed'
+@app.route('/alarm/status/<string:status>', methods=['POST'])
+# @jwt_required
+def set_alarm_status(status):
+    if status in ['arm', 'disarm', 'stay']:
+        system.set_status(status)
+        return jsonify({'status': status})
+    else:
+        return jsonify({'message': 'Please provide a valid status.'})
