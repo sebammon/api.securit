@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask
 from flask_jwt_extended import JWTManager
 from securit import config
 from securit.system import System
@@ -16,6 +16,6 @@ mongo = PyMongo(app)
 
 # Delayed imports - circular
 from securit.views import *
-from securit.sensors import initialise
+from securit.sensors import initialise_sensors
 
-initialise()
+initialise_sensors()

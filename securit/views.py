@@ -2,6 +2,7 @@ from flask import request, jsonify, Response
 from flask_jwt_extended import create_access_token, jwt_required
 from securit import app, mongo, system
 from bson.json_util import dumps
+from securit.system import Statuses
 
 mimetype = 'application/json'
 
@@ -71,8 +72,11 @@ def get_alarm_status():
 @app.route('/alarm/status/<string:status>', methods=['POST'])
 # @jwt_required
 def set_alarm_status(status):
-    if status in ['arm', 'disarm', 'stay']:
+    new_status = status.upper()
+    if new_status in [status.name for status in Statuses]:
+        if Statuses[new_status] == Statuses.DISARM and system.triggered:
+            system.triggered = True
         system.set_status(status)
-        return jsonify({'status': status.upper()})
+        return jsonify({'status': new_status})
     else:
         return jsonify({'message': 'Please provide a valid status.'})

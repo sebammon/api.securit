@@ -1,5 +1,5 @@
 from securit import system
-from securit.system import Status
+from securit.system import Statuses
 import importlib.util
 
 try:
@@ -12,17 +12,18 @@ PIR_SENSOR = 4
 LED = 17
 
 def check_motion(channel):
-    print('Motion was detected on channel {}'.format(channel))
+    print('Motion detected on channel {}'.format(channel))
+    if system.status == Statuses.ARM:
+        if not system.triggered:
+            system.triggered = True
+            print('Alarm triggered by {}!'.format(channel))
+            GPIO.output(LED, True)
+        else:
+            print('Alarm already triggered!')
+            pass
 
-    if system.status == Status.ARM:
-        print('Trigger alarm')
-        GPIO.output(LED, True)
-
-def initialise():
+def initialise_sensors():
     GPIO.setmode(GPIO.BCM)
-
     GPIO.setup(PIR_SENSOR, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
     GPIO.setup(LED, GPIO.OUT)
-
     GPIO.add_event_detect(PIR_SENSOR, GPIO.RISING, callback=check_motion)
