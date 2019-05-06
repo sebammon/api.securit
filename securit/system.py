@@ -7,7 +7,7 @@ class Status(Enum):
 
 class System:
     def __init__(self):
-        self.status = Status.ARM
+        self.status = Status.DISARM
 
     def get_status(self):
         return self.status.name

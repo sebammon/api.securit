@@ -14,7 +14,7 @@ app.config.from_object(config)
 jwt = JWTManager(app)
 mongo = PyMongo(app)
 
-# Delayed import for views
+# Delayed imports - circular
 from securit.views import *
 from securit.sensors import initialise
 

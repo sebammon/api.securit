@@ -73,6 +73,6 @@ def get_alarm_status():
 def set_alarm_status(status):
     if status in ['arm', 'disarm', 'stay']:
         system.set_status(status)
-        return jsonify({'status': status})
+        return jsonify({'status': status.upper()})
     else:
         return jsonify({'message': 'Please provide a valid status.'})
