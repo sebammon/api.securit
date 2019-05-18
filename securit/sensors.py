@@ -1,4 +1,3 @@
-from securit import system
 from securit.system import Statuses
 import importlib.util
 
@@ -32,6 +31,7 @@ def find_sensor_name(gpio):
     return found[0]['name']
 
 def check_motion(channel):
+    from securit import system
     sensor_name = find_sensor_name(channel)
     print('Motion detected by: {}'.format(sensor_name))
     if system.is_armed():
