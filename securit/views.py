@@ -74,8 +74,6 @@ def get_alarm_status():
 def set_alarm_status(status):
     new_status = status.upper()
     if new_status in [status.name for status in Statuses]:
-        if Statuses[new_status] == Statuses.DISARM and system.triggered:
-            system.triggered = True
         system.set_status(status)
         return jsonify({'status': new_status})
     else:
