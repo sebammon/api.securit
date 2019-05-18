@@ -16,3 +16,6 @@ class System:
     def set_status(self, new_status: str):
         self.status = Statuses[new_status.upper()]
         return self.status
+
+    def is_armed(self):
+        return self.status == Statuses.ARM
