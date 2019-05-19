@@ -63,3 +63,8 @@ def set_armed_status(state):
         sleep(0.1)
         GPIO.output(SIREN, False)
     return state
+
+def blink_alarm_led():
+    GPIO.output(ALARM_LED, True)
+    sleep(0.5)
+    GPIO.output(ALARM_LED, False)
