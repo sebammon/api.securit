@@ -26,6 +26,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(SYSTEM_LED, GPIO.OUT, initial=GPIO.HIGH) # Keep system LED on
 GPIO.setup(ALARM_LED, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(STATUS_LED, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(SIREN, GPIO.OUT, initial=GPIO.LOW)
 
 def find_sensor_name(gpio):
     found = list(filter(lambda sensor: sensor['gpio'] == gpio, SENSORS))
