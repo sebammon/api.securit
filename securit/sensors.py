@@ -68,3 +68,4 @@ def blink_alarm_led():
     GPIO.output(ALARM_LED, True)
     sleep(0.5)
     GPIO.output(ALARM_LED, False)
+    sleep(0.5)
