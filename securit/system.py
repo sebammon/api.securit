@@ -13,13 +13,15 @@ class Alarm:
     def get_status(self):
         return self.status.name
     
-    def set_status(self, new_status):
-        from securit.sensors import set_status_led
-        next_status = Statuses[new_status.upper()]
-        if new_status == Statuses.ARMED:
-            set_status_led(True)
-        elif new_status == Statuses.DISARMED:
-            set_status_led(False)
+    def set_status(self, status):
+        from securit.sensors import set_armed
+
+        next_status = Statuses[status.upper()]
+
+        if next_status == Statuses.ARMED:
+            set_armed(True)
+        elif next_status == Statuses.DISARMED:
+            set_armed(False)
             self.triggered = False
         self.status = next_status
         return self.status

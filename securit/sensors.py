@@ -48,5 +48,5 @@ def initialise_sensors():
         GPIO.setup(sensor['gpio'], GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(sensor['gpio'], GPIO.RISING, callback=check_motion)
 
-def set_status_led(state):
+def set_armed(state):
     GPIO.output(STATUS_LED, state)
