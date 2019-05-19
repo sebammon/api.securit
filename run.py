@@ -1,4 +1,4 @@
-from securit import app
+from securit.app import app
 from securit.sensors import GPIO
 
 if __name__ == "__main__":

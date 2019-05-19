@@ -1,28 +1,28 @@
 from enum import Enum
 
 class Statuses(Enum):
-    DISARM = 0
-    ARM = 1
+    DISARMED = 0
+    ARMED = 1
     STAY = 2
 
-class System:
+class Alarm:
     def __init__(self):
-        self.status = Statuses.DISARM
+        self.status = Statuses.DISARMED
         self.triggered = False
 
     def get_status(self):
         return self.status.name
     
-    def set_status(self, new_status: str):
+    def set_status(self, new_status):
         from securit.sensors import set_status_led
         next_status = Statuses[new_status.upper()]
-        if new_status == Statuses.ARM:
+        if new_status == Statuses.ARMED:
             set_status_led(True)
-        elif new_status == Statuses.DISARM:
+        elif new_status == Statuses.DISARMED:
             set_status_led(False)
             self.triggered = False
         self.status = next_status
         return self.status
 
     def is_armed(self):
-        return self.status == Statuses.ARM
+        return self.status == Statuses.ARMED

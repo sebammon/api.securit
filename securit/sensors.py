@@ -19,7 +19,7 @@ SENSORS = [
     {'gpio': 14, 'name': 'Lounge', 'stay': True},
     {'gpio': 15, 'name': 'Garage', 'stay': False},
     {'gpio': 16, 'name': 'Outside', 'stay': False},
-    ]
+        ]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(SYSTEM_LED, GPIO.OUT, initial=GPIO.HIGH) # Keep system LED on
@@ -31,12 +31,13 @@ def find_sensor_name(gpio):
     return found[0]['name']
 
 def check_motion(channel):
-    from securit import system
+    from securit.app import alarm
+
     sensor_name = find_sensor_name(channel)
     print('Motion detected by: {}'.format(sensor_name))
-    if system.is_armed():
-        if not system.triggered:
-            system.triggered = True
+    if alarm.is_armed():
+        if not alarm.triggered:
+            alarm.triggered = True
             print('Alarm triggered!')
         else:
             print('Alarm already triggered!')
