@@ -18,7 +18,7 @@ class Alarm:
 
         next_status = Statuses[status.upper()]
 
-        if next_status == Statuses.ARMED | next_status == Statuses.STAY:
+        if next_status == Statuses.ARMED or next_status == Statuses.STAY:
             set_armed_status(True)
         elif next_status == Statuses.DISARMED:
             set_armed_status(False)
