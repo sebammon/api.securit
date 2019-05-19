@@ -1,4 +1,5 @@
 from securit.system import Statuses
+from time import sleep
 import importlib.util
 
 try:
@@ -30,23 +31,32 @@ def find_sensor_name(gpio):
     found = list(filter(lambda sensor: sensor['gpio'] == gpio, SENSORS))
     return found[0]['name']
 
-def check_motion(channel):
+def trigger_stay(gpio):
+    filtered_list = list(map(lambda sensor: sensor['gpio'], 
+                        filter(lambda sensor: not sensor['stay'], SENSORS)))
+    return gpio in filtered_list
+
+def check_motion(gpio):
     from securit.app import alarm
 
-    sensor_name = find_sensor_name(channel)
-    print('Motion detected by: {}'.format(sensor_name))
+    sensor_name = find_sensor_name(gpio)
+    print('Motion detected: {}'.format(sensor_name))
     if alarm.is_armed():
         if not alarm.triggered:
-            alarm.triggered = True
-            print('Alarm triggered!')
-        else:
-            print('Alarm already triggered!')
-            pass
+            alarm.trigger_alarm()
+
+    elif alarm.is_stay():
+        if trigger_stay(gpio) and not alarm.triggered:
+            alarm.trigger_alarm()
 
 def initialise_sensors():
     for sensor in SENSORS:
         GPIO.setup(sensor['gpio'], GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(sensor['gpio'], GPIO.RISING, callback=check_motion)
 
-def set_armed(state):
+def set_armed_status(state):
     GPIO.output(STATUS_LED, state)
+    GPIO.output(SIREN, True)
+    sleep(0.1)
+    GPIO.output(SIREN, False)
+    return state
