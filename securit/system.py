@@ -46,7 +46,10 @@ class Alarm:
             self.triggered_thread = None
 
     def start(self):
-        from securit.sensors import blink_alarm_led
+        from securit.sensors import keep_siren_on, blink_alarm_led, turn_off_siren_and_led
 
         while self.triggered:
+            keep_siren_on()
             blink_alarm_led()
+
+        turn_off_siren_and_led()

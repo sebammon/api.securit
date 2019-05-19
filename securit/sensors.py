@@ -29,6 +29,9 @@ GPIO.setup(ALARM_LED, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(STATUS_LED, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(SIREN, GPIO.OUT, initial=GPIO.LOW)
 
+def is_production():
+    return current_app.config['ENV'] == 'production'
+
 def find_sensor_name(gpio):
     found = list(filter(lambda sensor: sensor['gpio'] == gpio, SENSORS))
     return found[0]['name']
@@ -58,7 +61,7 @@ def initialise_sensors():
 
 def set_armed_status(state):
     GPIO.output(STATUS_LED, state)
-    if current_app.config['ENV'] == 'production':
+    if is_production():
         GPIO.output(SIREN, True)
         sleep(0.1)
         GPIO.output(SIREN, False)
@@ -69,3 +72,12 @@ def blink_alarm_led():
     sleep(0.5)
     GPIO.output(ALARM_LED, False)
     sleep(0.5)
+
+def keep_siren_on():
+    if is_production():
+        if not GPIO.input(SIREN):
+            GPIO.output(SIREN, True)
+
+def turn_off_siren_and_led():
+    GPIO.output(ALARM_LED, False)
+    GPIO.output(SIREN, False)
