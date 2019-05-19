@@ -1,3 +1,4 @@
+from flask import current_app
 from securit.system import Statuses
 from time import sleep
 import importlib.util
@@ -57,7 +58,8 @@ def initialise_sensors():
 
 def set_armed_status(state):
     GPIO.output(STATUS_LED, state)
-    GPIO.output(SIREN, True)
-    sleep(0.1)
-    GPIO.output(SIREN, False)
+    if current_app.config['ENV'] == 'production':
+        GPIO.output(SIREN, True)
+        sleep(0.1)
+        GPIO.output(SIREN, False)
     return state
