@@ -3,5 +3,8 @@ class Config(object):
     TESTING = False
 
 class DevelopmentConfig(Config):
-    ENV = 'development'
-    DEBUG = True
+    FLASK_ENV = 'development'
+    TESTING = True
+
+class ProductionConfig(Config):
+    FLASK_ENV = 'production'

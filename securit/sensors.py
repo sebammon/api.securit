@@ -30,7 +30,7 @@ GPIO.setup(STATUS_LED, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(SIREN, GPIO.OUT, initial=GPIO.LOW)
 
 def is_production():
-    return current_app.config['ENV'] == 'production'
+    return not current_app.config['TESTING']
 
 def find_sensor_name(gpio):
     found = list(filter(lambda sensor: sensor['gpio'] == gpio, SENSORS))
