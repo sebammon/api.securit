@@ -49,7 +49,7 @@ class Alarm:
         from securit.sensors import keep_siren_on, blink_alarm_led, turn_off_siren_and_led
 
         while self.triggered:
-            keep_siren_on()
+            # keep_siren_on()
             blink_alarm_led()
 
         turn_off_siren_and_led()
