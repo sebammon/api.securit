@@ -3,7 +3,7 @@ from securit import config
 from securit.system import Alarm, Statuses
 
 app = Flask(__name__)
-config = config.DevelopmentConfig if app.config['ENV'] == 'development' else config.ProductionConfig
+config = config.DevelopmentConfig if app.config.get('ENV') == 'development' else config.ProductionConfig
 app.config.from_object(config)
 
 alarm = Alarm()
