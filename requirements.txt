@@ -4,3 +4,6 @@ flask-restplus==0.13.0
 
 # Linting
 pylint
+
+RPi.GPIO
+fake-rpi
