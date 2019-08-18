@@ -45,7 +45,7 @@ def check_motion(gpio):
     from securit.app import alarm
 
     sensor_name = find_sensor_name(gpio)
-    print('Motion detected: {}'.format(sensor_name))
+    # print('Motion detected: {}'.format(sensor_name))
     if alarm.is_armed():
         if not alarm.triggered:
             alarm.trigger_alarm()
