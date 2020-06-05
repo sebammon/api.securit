@@ -1,13 +1,27 @@
-# securIT
+# securIT API
+This repository serves as the backend (API) for the securIT project.
+The securIT project enables Raspberry PIs to be used for home security.
+This is achieved by connecting existing or new door contacts as well PIRs to the GPIOs of the Raspberry PI.
 
-## Setup
-1. Create a virtualenv
-1. Install python version >= 3.4.0 and supporting pip version
+## Getting started
+To get a local copy and running follow these steps.
+
+### Prerequisites
+We assume the following prerequisites.
+
+#### Hardware
+* Raspberry Pi
+* Door contacts
+* PIRs
+
+#### Software
+* Python version >= 3.4.0
+
+
+### Setup
+1. Create and activate your virtualenv
 2. If you are on Raspberry Pi run `pip install RPi.GPIO` otherwise run `pip install fake-rpi`
-3. Install virtualenv with `pip install virtualenv`
-4. Create virtualenv
-5. Active virtualenv
-6. Install dependencies with `pip install -r requirements.txt`
+3. Install remaining dependencies with `pip install -r requirements.txt`
 
 ## Running the server
 1. Navigate to project's source directory
@@ -20,3 +34,8 @@ According to this [article](https://medium.com/ymedialabs-innovation/deploy-flas
 * NGINX
 * Gunicorn
 * Supervisor
+
+## Built with
+* Python
+* Flask
+* RPi.GPIO
